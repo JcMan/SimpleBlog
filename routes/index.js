@@ -8,9 +8,15 @@ app.get('/', function (req, res){
     if (err) {
       posts = [];
     } 
+    var page=req.query.p?parseInt(req.query.p):1;
+    var total = posts.length;
+    posts = posts.slice((page-1)*5,page*5);
     res.render('index', {
       title: '主页',
       user: req.session.user,
+      page:page,
+      isFirstPage: (page - 1) == 0,
+      isLastPage: ((page - 1) * 5 + posts.length) == total,
       posts: posts,
       success: req.flash('success').toString(),
       error: req.flash('error').toString()
@@ -67,7 +73,7 @@ app.get('/login', function (req, res) {
         success: req.flash('success').toString(),
         error: req.flash('error').toString()});
 });
-  app.post('/login', function (req, res) {
+app.post('/login', function (req, res) {
   var md5 = crypto.createHash('md5'),
       password = md5.update(req.body.password).digest('hex');
   User.get(req.body.name, function (err, user) {
@@ -91,14 +97,14 @@ app.get('/login', function (req, res) {
         success: req.flash('success').toString(),
         error: req.flash('error').toString()});
 });
-  app.get('/post', function (req, res){
-    res.render('post', {
-      title: '发表',
-      user: req.session.user,
-      success: req.flash('success').toString(),
-      error: req.flash('error').toString()
-    });
+app.get('/post', function (req, res){
+  res.render('post', {
+    title: '发表',
+    user: req.session.user,
+    success: req.flash('success').toString(),
+    error: req.flash('error').toString()
   });
+});
 app.post('/post', function (req, res){
   var str = req.body.post;
   str = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+str;
@@ -118,11 +124,13 @@ app.post('/post', function (req, res){
     res.redirect('/');
   });
 });
+
 app.get('/logout', function (req, res){
   req.session.user = null;
   req.flash('success', '登出成功!');
   res.redirect('/');
 });
+
 app.get('/articlelist',function(req,res){
     var name = req.session.user.name;
     Post.get(name, function (err, posts){
@@ -139,6 +147,41 @@ app.get('/articlelist',function(req,res){
   });
 
 });
+
+app.get('/search', function (req, res) {
+    res.render('search', {
+        title: '搜索',
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()});
+});
+
+app.post('/search', function (req, res){
+    var search = req.body.search;
+    Post.get(null, function (err, posts){
+        if (err) {
+          posts = [];
+        }
+        var contents = [];
+        var i=0;
+        posts.forEach(function (post, index){
+            if(post.title.indexOf(search)!=-1||post.post.indexOf(search)!=-1){
+                contents[i++] = post;
+            }
+        });
+        res.render('index', {
+            title: '主页',
+            user: req.session.user,
+            page:1,
+            isFirstPage: 0== 0,
+            isLastPage: 0==0,
+            posts: contents,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
+        });
+    });
+});
+
 
 
 };

@@ -16,3 +16,7 @@ a {
 .a_time{
 	margin-left: 20px;
 }
+
+.prepage a{float:left;text-decoration:none;padding:.5em 1em;color:#2DB354;}
+.nextpage a{float:right;text-decoration:none;padding:.5em 1em;color:#2DB354;}
+.prepage a:hover,.nextpage a:hover{text-decoration:none;background-color:#2DB354;color:#f9f9f9;-webkit-transition:color .2s linear;}
