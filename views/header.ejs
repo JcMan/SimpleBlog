@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+	<title>blog</title>
+<link rel="stylesheet" href="/stylesheets/amazeui.min.css">
+<link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<header class="am-topbar am-topbar-fixed-top" style="background:#2DB354;">
+  <div class="am-container" >
+    <h1 class="am-topbar-brand">
+      <a style="color:#ffffff;" href="#">美文美换</a>
+    </h1>
+    <div class="am-collapse am-topbar-collapse" id="collapse-head">
+      <ul class="am-nav am-nav-pills am-topbar-nav">
+       <li><a style="color:#000000;" href="/">主页</a></li>
+        <% if (user) { %>
+          <li><a style="color:#000000;" href="/post">发表</a></li>
+          <li><a style="color:#000000;" href="/logout">登出</a></li>
+          <li><a style="color:#000000;" href="/articlelist">我的</a></li>
+        <% } else { %>
+          <li><a style="color:#000000;" title="登录" href="/login">登录</a></li>
+          <li><a style="color:#000000;" title="注册" href="/reg">注册</a></li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</header>
+<article>
+<br><br><br>
+<% if (success) { %>
+  <div><%= success %></div>
+<% } %>
+<% if (error) { %>
+  <div><%= error %> </div>
+<% } %>
+
