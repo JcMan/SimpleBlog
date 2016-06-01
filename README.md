@@ -1,0 +1,2 @@
+# SimpleBlog
+一个简单的基于Nodejs和MongoDB的博客平台
