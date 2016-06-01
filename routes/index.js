@@ -137,9 +137,15 @@ app.get('/articlelist',function(req,res){
     if (err) {
       posts = [];
     } 
+    var page=req.query.p?parseInt(req.query.p):1;
+    var total = posts.length;
+    posts = posts.slice((page-1)*5,page*5);
     res.render('index', {
       title: '主页',
       user: req.session.user,
+      page:page,
+      isFirstPage: (page - 1) == 0,
+      isLastPage: ((page - 1) * 5 + posts.length) == total,
       posts: posts,
       success: req.flash('success').toString(),
       error: req.flash('error').toString()
