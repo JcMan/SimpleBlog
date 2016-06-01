@@ -171,7 +171,7 @@ app.post('/search', function (req, res){
         var contents = [];
         var i=0;
         posts.forEach(function (post, index){
-            if(post.title.indexOf(search)!=-1||post.post.indexOf(search)!=-1){
+            if(post.title.indexOf(search)!=-1||post.post.indexOf(search)!=-1||post.name.indexOf(search)!=-1){
                 contents[i++] = post;
             }
         });
